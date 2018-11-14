@@ -27,7 +27,6 @@ def fcreate(grid, width, height, rows, columns, goal):
             height = re.sub('[A-z]', '', height).strip()
     print(width)
     print(height)
-    # We now have to jump to the rows.
     return
     pass
 
