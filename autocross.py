@@ -7,6 +7,29 @@
 import sys
 # Testing if a file exist ; later opening it.
 from pathlib import Path
+# Regular Expressions are life
+import re
+
+
+# This function will create the grid
+def fcreate(grid, width, height, rows, columns, goal):
+    gridfile = open(grid, "r")
+    # Basically, this is cancer parsing.
+    # Parsing idea : for line in gridfile... Get the lines that we need then trim then.
+    # For the dict(), we'll see later.
+    # We read through the files skipping lines when needed.
+    for line in gridfile:
+        if "width" in line:
+            width = line
+            width = re.sub('[A-z]', '', width).strip()
+        if "height" in line:
+            height = line
+            height = re.sub('[A-z]', '', height).strip()
+    print(width)
+    print(height)
+    # We now have to jump to the rows.
+    return
+    pass
 
 
 # This function will be used to display the current grid.
@@ -30,12 +53,14 @@ def fname(arglist):
 # Script's body. Most of the code will happen in the functions
 def main(argv):
     # Here we define what will be the grid file we'll open.
+    # We also define all of the variables used to define the grid in itself
     grid = ''
     width = 0
     height = 0
     rows = dict()
     columns = dict()
     goal = 0
+    # Define - end
     if argv[1] == '-g':
         # We now have to test if the file exists. Yes, using 'break' is bad.
         is_file = Path(argv[2])
@@ -46,6 +71,8 @@ def main(argv):
             # Getting the specified file.
             grid = argv[2]
             print(grid)
+            # We will now create the grid by reading the given file
+            fcreate(grid, width, height, rows, columns, goal)
             pass
     else:
         print('Wrong option ! Please use -g to specify the grid you want to open.')
