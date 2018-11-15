@@ -12,22 +12,26 @@ import re
 
 
 # This function will create the grid
-def fcreate(grid, width, height, rows, columns, goal):
-    gridfile = open(grid, "r")
+def fcreate(grid_id):
+    gridfile = open(grid_id['grid'], "r")
     # Basically, this is cancer parsing.
     # Parsing idea : for line in gridfile... Get the lines that we need then trim then.
     # For the dict(), we'll see later.
     # We read through the files skipping lines when needed.
     for line in gridfile:
         if "width" in line:
-            width = line
-            width = re.sub('[A-z]', '', width).strip()
+            grid_id['width'] = re.sub('[A-z]', '', line).strip()
         if "height" in line:
-            height = line
-            height = re.sub('[A-z]', '', height).strip()
-    print(width)
-    print(height)
-    return
+            grid_id['height'] = re.sub('[A-z]', '', line).strip()
+            break
+    for line in gridfile:
+        if "rows" in line:
+            while ("columns" not in line) or ("goal" not in line):
+                return grid_id
+        if "columns" in line:
+            while ("rows" not in line) or ("goal" not in line):
+                return grid_id
+    return grid_id
     pass
 
 
@@ -59,6 +63,7 @@ def main(argv):
     rows = dict()
     columns = dict()
     goal = 0
+    grid_id = {'grid': grid, 'width': width, 'height': height, 'rows': rows, 'columns': columns, 'goal': goal}
     # Define - end
     if argv[1] == '-g':
         # We now have to test if the file exists. Yes, using 'break' is bad.
@@ -68,10 +73,11 @@ def main(argv):
             pass
         else:
             # Getting the specified file.
-            grid = argv[2]
-            print(grid)
+            grid_id['grid'] = argv[2]
+            print(grid_id['grid'])
             # We will now create the grid by reading the given file
-            fcreate(grid, width, height, rows, columns, goal)
+            grid_id = fcreate(grid_id)
+            print("width = " + grid_id['width'])
             pass
     else:
         print('Wrong option ! Please use -g to specify the grid you want to open.')
