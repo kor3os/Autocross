@@ -14,23 +14,19 @@ import re
 # This function will create the grid
 def fcreate(grid_id):
     gridfile = open(grid_id['grid'], "r")
-    # Basically, this is cancer parsing.
-    # Parsing idea : for line in gridfile... Get the lines that we need then trim then.
-    # For the dict(), we'll see later.
-    # We read through the files skipping lines when needed.
+    # Here, we're going through the entire file, getting the values we need.
+    # Still working on a pretty way to make the dictionary !
     for line in gridfile:
         if "width" in line:
             grid_id['width'] = re.sub('[A-z]', '', line).strip()
         if "height" in line:
             grid_id['height'] = re.sub('[A-z]', '', line).strip()
-            break
-    for line in gridfile:
         if "rows" in line:
-            while ("columns" not in line) or ("goal" not in line):
-                return grid_id
+            # Get all the rows values until something else ? Or EOF
         if "columns" in line:
-            while ("rows" not in line) or ("goal" not in line):
-                return grid_id
+            # Get all the columns values until something else ? Or EOF
+    # end of the for
+    gridfile.close()
     return grid_id
     pass
 
@@ -66,7 +62,7 @@ def main(argv):
     grid_id = {'grid': grid, 'width': width, 'height': height, 'rows': rows, 'columns': columns, 'goal': goal}
     # Define - end
     if argv[1] == '-g':
-        # We now have to test if the file exists. Yes, using 'break' is bad.
+        # We now have to test if the file exists.
         is_file = Path(argv[2])
         if not is_file.is_file():
             print("File doesn't exist !")
@@ -74,7 +70,7 @@ def main(argv):
         else:
             # Getting the specified file.
             grid_id['grid'] = argv[2]
-            print(grid_id['grid'])
+            print("The file " + grid_id['grid'] + " exists. Now creating the grid.")
             # We will now create the grid by reading the given file
             grid_id = fcreate(grid_id)
             print("width = " + grid_id['width'])
