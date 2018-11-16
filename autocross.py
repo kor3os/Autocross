@@ -16,7 +16,12 @@ def fcreate(grid_id):
     gridfile = open(grid_id['grid'], "r")
     # Here, we're going through the entire file, getting the values we need.
     # Still working on a pretty way to make the dictionary !
+    # Just wanna clear out the warnings
+    width, height, reach, goal = '', '', '', ''
+    idx_cols, idx_rows = 0, 0
+    rows, columns = dict(), dict()
     lines = gridfile.readlines()
+
     for i, line in enumerate(lines):
         if "width" in line:
             width = re.sub('[A-z]', '', line).strip()
@@ -44,6 +49,8 @@ def fcreate(grid_id):
     stripdict(grid_id['rows'])
     grid_id['columns'] = lines[idx_cols+1:idx_cols+1+grid_id['width']]
     stripdict(grid_id['columns'])
+    # Reach = goal with zeros
+    grid_id['reach'] = re.sub('[1]', '0', goal)
     grid_id['goal'] = goal
     # We now close the file and return what we created !!
     gridfile.close()
@@ -83,13 +90,25 @@ def stripdict(dico):
 def main(argv):
     # Here we define what will be the grid file we'll open.
     # We also define all of the variables used to define the grid in itself
+    # This is the file leading to the grid
     grid = ''
+    # Width of the grid
     width = 0
+    # Height of the grid
     height = 0
+    # The rows' hints
     rows = dict()
+    # The columns' hints
     columns = dict()
+    # Same length as goal, contains only zeros at first
+    # Compared to goal while solving, and evolves depending on which case you fill in
+    reach = 0
+    # The final goal; bool value of the case where 0 = empty and 1 = filled in
     goal = 0
-    grid_id = {'grid': grid, 'width': width, 'height': height, 'rows': rows, 'columns': columns, 'goal': goal}
+    # This is a dictionary containing all of the values we need to display or solve the grid !
+    grid_id = {
+        'grid': grid, 'width': width, 'height': height, 'rows': rows, 'columns': columns, 'reach': reach, 'goal': goal
+    }
     # Define - end
     if argv[1] == '-g':
         # We now have to test if the file exists.
