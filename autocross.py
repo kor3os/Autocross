@@ -36,25 +36,30 @@ def fcreate(grid_id):
             goal = re.sub('[A-z"]', '', line).strip()
             pass
     # end of the for
+    # We now have to get the values we want !
     grid_id['width'] = int(width)
     grid_id['height'] = int(height)
+    # It was too annoying to strip a dict in a dict so I made a quick and simple function
     grid_id['rows'] = lines[idx_rows+1:idx_rows+1+grid_id['height']]
+    stripdict(grid_id['rows'])
     grid_id['columns'] = lines[idx_cols+1:idx_cols+1+grid_id['width']]
+    stripdict(grid_id['columns'])
     grid_id['goal'] = goal
-
+    # We now close the file and return what we created !!
     gridfile.close()
     return grid_id
     pass
 
 
 # This function will be used to display the current grid.
-def fdisplay(grid):
+def fdisplay(grid_id):
+
     return
     pass
 
 
 # This function will be used to solve the current grid. Main function I guess !
-def fsolve(grid):
+def fsolve(grid_id):
     return
     pass
 
@@ -98,8 +103,6 @@ def main(argv):
             print("The file " + grid_id['grid'] + " exists. Now creating the grid.")
             # We will now create the grid by reading the given file
             grid_id = fcreate(grid_id)
-            stripdict(grid_id['rows'])
-            print(grid_id['rows'])
             pass
     else:
         print('Wrong option ! Please use -g to specify the grid you want to open.')
