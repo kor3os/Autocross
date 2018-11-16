@@ -41,6 +41,7 @@ def fcreate(grid_id):
     grid_id['rows'] = lines[idx_rows+1:idx_rows+1+grid_id['height']]
     grid_id['columns'] = lines[idx_cols+1:idx_cols+1+grid_id['width']]
     grid_id['goal'] = goal
+
     gridfile.close()
     return grid_id
     pass
@@ -61,6 +62,15 @@ def fsolve(grid):
 # I'll change the arg getter to put it in here later.
 def fname(arglist):
     return
+    pass
+
+
+def stripdict(dico):
+    i = 0
+    while i < len(dico):
+        dico[i] = dico[i].strip()
+        i += 1
+    return dico
     pass
 
 
@@ -88,6 +98,8 @@ def main(argv):
             print("The file " + grid_id['grid'] + " exists. Now creating the grid.")
             # We will now create the grid by reading the given file
             grid_id = fcreate(grid_id)
+            stripdict(grid_id['rows'])
+            print(grid_id['rows'])
             pass
     else:
         print('Wrong option ! Please use -g to specify the grid you want to open.')
