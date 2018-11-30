@@ -60,7 +60,20 @@ def fcreate(grid_id):
 
 # This function will be used to display the current grid.
 def fdisplay(grid_id):
-
+    # Displaying the grid's width
+    # Go through the width; display what you gotta display: go to next line.
+    idx = 0
+    goal = grid_id['goal']
+    print(grid_id['width']*'*')
+    # Display loop
+    for i in range(1, grid_id['height']*grid_id['width']):
+        print("*", end='')
+        if goal[idx] == '1':
+            print('x', end='')
+        else:
+            print('o', end='')
+        idx = idx + 1
+        print()
     return
     pass
 
@@ -122,6 +135,7 @@ def main(argv):
             print("The file " + grid_id['grid'] + " exists. Now creating the grid.")
             # We will now create the grid by reading the given file
             grid_id = fcreate(grid_id)
+            fdisplay(grid_id)
             pass
     else:
         print('Wrong option ! Please use -g to specify the grid you want to open.')
