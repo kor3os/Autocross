@@ -1,6 +1,8 @@
 # We will first have to read the provided grid
 # It will work as follow :
 # autocross.py -g <Path to grid>
+# TODO: FIX THE ERROR WHEN THERES NO ARG
+# TODO: Edit funcs to make them return 0 or 1 (0 on success, 1 on fail)
 
 # Imports
 # -> sys allows us to use system calls
@@ -62,18 +64,34 @@ def fcreate(grid_id):
 def fdisplay(grid_id):
     # Displaying the grid's width
     # Go through the width; display what you gotta display: go to next line.
-    idx = 0
+    # Getting the vars we need from the initialized grid
+    width = grid_id['width']
+    height = grid_id['height']
     goal = grid_id['goal']
-    print(grid_id['width']*'*')
+    # Vars we need to navigate
+    idx = 0
+    pos = width
+    posp = 0
+    # How big the grid is
+    heav = height * width
+    # Dab on the haters
+    print("#" + width*'*')
     # Display loop
-    for i in range(1, grid_id['height']*grid_id['width']):
+    for i in range(1, int(len(goal)/width)+1):
         print("*", end='')
-        if goal[idx] == '1':
-            print('x', end='')
-        else:
-            print('o', end='')
-        idx = idx + 1
+        # We have to go through the goal step by step
+        for j in range(posp, pos):
+            if goal[idx] == '1':
+                # Print but without a new line
+                print('x', end='')
+            else:
+                # Print but without a new line again
+                print('o', end='')
+            idx = idx + 1
+        pass
         print()
+        posp = pos
+        pos = pos + width
     return
     pass
 
@@ -90,6 +108,7 @@ def fname(arglist):
     pass
 
 
+# Can't .strip a dict, so I'm doing it here
 def stripdict(dico):
     i = 0
     while i < len(dico):
