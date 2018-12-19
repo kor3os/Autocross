@@ -1,8 +1,13 @@
 # We will first have to read the provided grid
 # It will work as follow :
 # autocross.py -g <Path to grid>
-# TODO: FIX THE ERROR WHEN THERES NO ARG
+# TODO: FIX THE ERROR WHEN THERE'S NO ARG
 # TODO: Edit funcs to make them return 0 or 1 (0 on success, 1 on fail)
+# TODO: make a dynamic display function, like "press 1 for finished state, 2 for current"
+# TODO: Make a "dot" class that contains the (x, y) coordinates and the status of the dot maybe ? ("x" or "o")
+# TODO: Complete flignify; creates 2 dict() with the rows and columns (taken from the "reach" var)
+# TODO: Complete the "obvious algorithm" list in order to make the solving job easier.
+# ^ Where do we go from here ? Algorithms or AI ?
 
 # Imports
 # -> sys allows us to use system calls
@@ -60,8 +65,43 @@ def fcreate(grid_id):
     pass
 
 
-# This function will be used to display the current grid.
-def fdisplay(grid_id):
+# This function will be used to display the current grid, but in the current solved state.
+def fdisplaycurrent(grid_id):
+    # Vars we need.
+    # Basically the same thing as below.
+    width = grid_id['width']
+    height = grid_id['height']
+    reach = grid_id['reach']
+    # Vars we need to navigate
+    idx = 0
+    pos = width
+    posp = 0
+    # How big the grid is
+    heav = height * width
+    # Dab on the haters
+    print("#" + width*'*')
+    # Display loop
+    for i in range(1, int(len(reach)/width)+1):
+        print("*", end='')
+        # We have to go through the goal step by step
+        for j in range(posp, pos):
+            if reach[idx] == '1':
+                # Print but without a new line
+                print('x', end='')
+            else:
+                # Print but without a new line again
+                print('o', end='')
+            idx = idx + 1
+        pass
+        print()
+        posp = pos
+        pos = pos + width
+    return
+    pass
+
+
+# This function will be used to display the current grid, but finished.
+def fdisplaysolved(grid_id):
     # Displaying the grid's width
     # Go through the width; display what you gotta display: go to next line.
     # Getting the vars we need from the initialized grid
@@ -104,6 +144,13 @@ def fsolve(grid_id):
 
 # I'll change the arg getter to put it in here later.
 def fname(arglist):
+    return
+    pass
+
+
+# Where d stands for distinct.
+# Here we'll "split" the reach in lines and columns.
+def flignify(linesd, columnsd):
     return
     pass
 
@@ -154,7 +201,7 @@ def main(argv):
             print("The file " + grid_id['grid'] + " exists. Now creating the grid.")
             # We will now create the grid by reading the given file
             grid_id = fcreate(grid_id)
-            fdisplay(grid_id)
+            fdisplaysolved(grid_id)
             pass
     else:
         print('Wrong option ! Please use -g to specify the grid you want to open.')
